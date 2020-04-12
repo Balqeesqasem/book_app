@@ -18,9 +18,7 @@ app.use(express.urlencoded({extended:true}));
 //tell the browser that iam using ejs
 app.set('view engine', 'ejs'); 
 
-app.listen(PORT , () =>{
-    console.log(`Here we go ${PORT}`)
-}) 
+
 
 app.get('/',(req,res)=>{
     res.render('pages/searches/show');
@@ -111,6 +109,9 @@ function error (req,res) {
   res.render('pages/error');
 }
 
+app.listen(PORT , () =>{
+    console.log(`Here we go ${PORT}`)
+}) 
 
 //const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:`
 //const url = `https://www.googleapis.com/books/v1/volumes?q=inauthor:`
