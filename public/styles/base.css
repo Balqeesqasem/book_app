@@ -1,13 +1,101 @@
+body {
+    align-content: center;
+    background-image: url(FB_IMG_1586442708432.jpg);
+    background-repeat: no-repeat;
+    align-content: center;
+    background-size: cover;
+    
+}
+
+header {
+    background-color: #383d3d;
+    color: #937e73;
+    padding: 4%;
+    text-align: center;
+    opacity: .8;
+    border: solid 8px;
+}
 form {
+    margin-top: 18%;
+    background-color: #1d282a;
+    opacity: 0.8;
+    margin-bottom: 27%;
+}
+input[type="text"] {
+    margin-left: 19%;
+    margin-top: 6%;
+    border: none;
+    background-color: #bba190;
+    padding: 3%;
+    width: 60%;
+    color: #0f1b22;
+}
+
+input[type="checkbox"] {
+    margin-left: 8%;
+    width: 36%;
+    margin-top: 5%;
+    /* color: black; */
+}
+
+label {
+    color: #bea392;
+}
+
+button {
+    background-color: #b29988;
+    padding: 1%;
+    width: 66%;
+    margin-left: 19%;
+    /* height: 82%; */
+    margin-top: 13%;
+    margin-bottom: 13%;
+}
+
+footer {
+    background-color: #383d3d;
+    color: #937e73;
+    padding: 1%;
+    text-align: center;
+    opacity: .8;
+    border: solid 2px;
+}
+
+/* form {
     padding: 1%;
     margin: 2% 41% 2% 43%;
 }
 
 input[type="checkbox"] {
     padding: 19%;
-    margin: 9% 6% 2% 2%;
+    margin: 26% 6% 2% 8%;
 }
 input[type="text"] {
-    padding: 4%;
-    background-color: wheat;
-    width: 162%;}
+    padding: 7%;
+    background-color: #80042e;
+    width: 162%;
+    border: none;
+}
+    button {
+        width: 166%;
+        padding: 7%;
+        background-color: #80042e;
+        border-radius: 56%;
+        /* height: 50%; */
+        /* color: #e2b59b;
+        margin-top: 38%;
+    } */
+
+
+    /* button:hover {
+        width: 166%;
+        padding: 7%;
+        background-color: #eea074;
+        border-radius: 56%; */
+        /* height: 50%; */
+        /* color: #80042e;
+        margin-top: 38%; */
+    /* } */
+    /* label {
+        color: #80152e;
+    } */ 
