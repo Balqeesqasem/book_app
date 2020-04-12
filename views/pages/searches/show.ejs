@@ -8,16 +8,20 @@
     <link rel="stylesheet" href="./styles/base.css">
 </head>
 <body>
+    <header>Word Of Books</header>
     <main>
-        <form >
-            <input type="text" placeholder="Search..">
+        <form action="/searches" method="POST">
+            <input type="text" name="search" placeholder="search title of book or auther ">
             <input type="checkbox"  name="title" value="Bike">
               <label for="title">Title</label><br>
               <input type="checkbox"  name="auther" value="Bike">
               <label for="auther">Auther</label><br>
+              <button>SEARCH!</button>
         </form>
        
 
     </main>
+
+    <footer>© 2020 All Rights Reserved.</footer>
 </body>
 </html>
