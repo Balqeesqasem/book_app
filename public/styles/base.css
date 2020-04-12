@@ -1,0 +1,13 @@
+form {
+    padding: 1%;
+    margin: 2% 41% 2% 43%;
+}
+
+input[type="checkbox"] {
+    padding: 19%;
+    margin: 9% 6% 2% 2%;
+}
+input[type="text"] {
+    padding: 4%;
+    background-color: wheat;
+    width: 162%;}
