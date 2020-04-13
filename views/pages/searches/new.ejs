@@ -4,18 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="/public/styles/reset.css">
+    <link rel="stylesheet" href="/public/styles/base.css">
 </head>
 <body>
     <main>
         <ul>
+            <form action="/add" method="POST">
+                
+             
           <% bookKey.forEach(val => { %>
                 <img src="<%= val.imge %>" alt="">  
                 <p><%= val.title %></p>
                 <p><%= val.auther %> </p>
                 <p><%=val.description%></p>
+                <button id='button' style="display: flex;"> ADD BOOK!</button>
          <% })%>
+         
          </ul>
-
+        </form>
     </main>
 </body>
 </html>

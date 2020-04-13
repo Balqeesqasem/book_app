@@ -8,15 +8,19 @@
     <link rel="stylesheet" href="./styles/base.css">
 </head>
 <body>
-    <header>
-
-    </header>
- <main>
-    <h1>Hello</h1>
- </main>
-<footer>
-
-</footer>
-
+    <%- include ('../layout/header.ejs') %>
+    <main>
+        <h1><%=books.length%> Saved Books</h1>
+        <ul>
+            <% books.forEachval(val => { %>
+                <img src="<%= val.imge %>" alt="">  
+                <p><%= val.title %></p>
+                <p><%= val.auther %> </p>
+                <a href="/details/<%val.id%>" >View Details!</a>
+                
+         <% })%>
+        </ul> </form>
+    </main>
+    <%- include ('../layout/footer.ejs') %>
 </body>
 </html>
