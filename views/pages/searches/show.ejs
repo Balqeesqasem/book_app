@@ -8,8 +8,32 @@
     <link rel="stylesheet" href="./styles/base.css">
 </head>
 <body>
-    <header>Word Of Books</header>
+    
+    <header>
+
+        <h1>Best Books!</h1>
+       
+            <div></div>
+            <div></div>
+            <div></div>
+       
+     
+
+    </header>
     <main>
+
+        <!-- <div class="topnav">
+            <a href="#home" class="active">Logo</a>
+            <div id="myLinks">
+              <a href="#news">News</a>
+              <a href="#contact">Contact</a>
+              <a href="#about">About</a>
+            </div>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+              <i class="fa fa-bars"></i>
+            </a>
+          </div> -->
+           
         <form action="/searches" method="POST">
             <input type="text" name="search" placeholder="search title of book or auther ">
             <input type="checkbox"  name="title" value="Bike">
@@ -19,9 +43,17 @@
               <button>SEARCH!</button>
         </form>
        
-
+        <!-- <%function myFunction() { %>
+            <% var x = document.getElementById("myLinks"); %>  
+            <% if (x.style.display === "block") {%> 
+                <%  x.style.display = "none"; %>   
+                <%  } else { %>
+                    <%   x.style.display = "block"; %> 
+                    <%  } %>
+                    <%  }%> -->
     </main>
 
     <footer>© 2020 All Rights Reserved.</footer>
+    <script src="/public/js/app.js"></script>
 </body>
 </html>
