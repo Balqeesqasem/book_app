@@ -11,16 +11,27 @@
 <body>
     <header>
         <h1>Best Books!</h1>
-       
-        <div></div>
-        <div></div>
-        <div></div>
-   
+        <div class="topnav">
+            <div id="myLinks">
+              <a href="/">Home</a>
+              <a href="/find">Search</a>
+            </div>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+              <i class="fa fa-bars"></i>
+            </a>
     </header>
    
      
     <!-- <footer>© 2020 All Rights Reserved.</footer> -->
        
-     
+     <script>
+     function myFunction() {
+        var x = document.getElementById("myLinks");
+        if (x.style.display === "block") {
+          x.style.display = "none";
+        } else {
+          x.style.display = "block";
+        }
+      }</script>
 </body>
 </html>
