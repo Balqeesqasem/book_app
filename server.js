@@ -25,43 +25,38 @@ app.get('/',getDataBaseSaved);
 app.get('/find',(req,res)=>{
     res.render('pages/searches/show');
 })
-app.post('/add',addBook); 
+app.get('/detail/:id',(req,res)=>{
+let valOf = [req.params.id];
+let SQL = "SELECT * FROM selectedBook WHERE id=$1;"
+return client.query(SQL,valOf)
+.then(results=> {
+  res.render('pages/books/detail', {books:results.rows[0]});
+})
+  
+})
 
+app.post('/add',addBook); 
+//app.post('/add/:id',addBook); 
 function getDataBaseSaved(req,res){
     let SQL = 'SELECT * FROM selectedBook;';
     return client.query(SQL)
     .then(results =>{
+      //console.log("hhhhhhhhhhhhhh",results.rows);
         res.render('pages/index',{books:results.rows});
     })
 }
 
     function addBook(req,res) {
-     console.log(req.body);
+     //let va = req.params.id;
     let {author,title,isbn,image_url,book_description,bookshelf} = req.body;
+    //console.log(req.body);
     let SQL = 'INSERT INTO selectedBook (author,title,isbn,image_url,book_description,bookshelf) VALUES ($1,$2,$3,$4,$5,$6);';
     let safeValues = [author,title,isbn,image_url,book_description,bookshelf];
     return client.query(SQL,safeValues)
-    .then (()=>{
+    .then (results =>{
         res.redirect('/');
     })
 }
-// function getBookDetails(req,res) {
-//     console.log(req.params.books_id);
-//     let SQL = 'SELECT * FROM tasks WHERE id=$1;';
-//     let values = [req.params.task_id];
-//     return client.query(SQL,values)
-//     .then (result =>{
-//         res.render('BookDetails',{books:result.rows[0]});
-//     })
-// }
-// app.get('/addBook',showBook);
-
-// app.get('/details/:task_id', getBookDetails);
-
-// function showBook (req,res) {
-//     res.render('addBook',{books:results.rows});
-// }
-
 
 app.post('/searches',(req,res)=>{
     const qSearch = req.body.search;
@@ -82,27 +77,28 @@ app.post('/searches',(req,res)=>{
         })
     }
    })
+   function bookGet(qSearch,auterC){
+    let url = `https://www.googleapis.com/books/v1/volumes?q=inauter:${qSearch}`;
+      return superagent.get(url)
+        .then(bookData => {
+          //console.log(bookData.body);
+          return bookData.body.items.map( val =>{
+         //console.log('mmmmmmmmmmmmmmmm',val);
+            return new Book(val) ;
+          });
+        });
+    }
+    
 
-function bookGet(qSearch,auterC){
-let url = `https://www.googleapis.com/books/v1/volumes?q=inauter:${qSearch}`;
-  return superagent.get(url)
-    .then(bookData => {
-      //console.log(bookData.body);
-      return bookData.body.items.map( val =>{
-     //console.log('gggggggggggggggggg',val);
-        return new Book(val) ;
-      });
-    });
-}
 
 function bookGet1(qSearch,titleC){
     let url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${qSearch}`;
       return superagent.get(url)
         .then(bookData => {
           //console.log(bookData.body);
-          return bookData.body.items.map( val =>{
+         return bookData.body.items.map( val =>{
          //console.log('gggggggggggggggggg',val);
-            return new Book(val) ;
+         return new Book(val) ;
           });
         });
     }
@@ -120,12 +116,7 @@ function Book(bookData){
     else{
         this.title=bookData.volumeInfo.title;
     }
-    if(bookData.volumeInfo.authors ===  undefined){
-        this.auther=" No Auther "
-    }
-    else{
-        this.auther=bookData.volumeInfo.authors;
-    }
+    this.authors = bookData.volumeInfo.authors ? bookData.volumeInfo.authors[0] : 'No Author found';
     
     if(bookData.volumeInfo.description===  undefined){
         this.description="No description";
@@ -134,6 +125,9 @@ function Book(bookData){
         this.description=bookData.volumeInfo.description;
     }
     
+    this.isbn = bookData.volumeInfo.industryIdentifiers[0].identifier ? bookData.volumeInfo.industryIdentifiers[0].identifier : '00';
+    
+   
 }
 
 app.use(error);

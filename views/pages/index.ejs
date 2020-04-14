@@ -9,17 +9,20 @@
 </head>
 <body>
     <%- include ('../layout/header.ejs') %>
-    <main>
-        <h1><%=books.length%> Saved Books</h1>
+    <main id="indexmain">
+        <h2><%=books.length%> Saved Books</h2>
         <ul>
-            <% books.forEachval(val => { %>
-                <img src="<%= val.imge %>" alt="">  
-                <p><%= val.title %></p>
-                <p><%= val.auther %> </p>
-                <a href="/details/<%val.id%>" >View Details!</a>
-                
+            <!-- <%console.log(books.length)%> -->
+            <% books.forEach(val => { %>
+                <%console.log(val.author)%>
+                <img class="img" src="<%= val.image_url %>" alt="">  
+                <p id="text"><%= val.author %> </p>  
+                <p id="text"><%= val.title %></p>
+                <form action="detail/<%=val.id%>">
+                    <button>Show Detals</button>
+                </form>
          <% })%>
-        </ul> </form>
+        </ul> 
     </main>
     <%- include ('../layout/footer.ejs') %>
 </body>

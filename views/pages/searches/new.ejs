@@ -6,23 +6,41 @@
     <title>Document</title>
     <link rel="stylesheet" href="/public/styles/reset.css">
     <link rel="stylesheet" href="/public/styles/base.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
 </head>
 <body>
     <main>
         <ul>
-            <form action="/add" method="POST">
-                
-             
-          <% bookKey.forEach(val => { %>
+            <% bookKey.forEach(val => { %>
                 <img src="<%= val.imge %>" alt="">  
                 <p><%= val.title %></p>
-                <p><%= val.auther %> </p>
+                <p><%= val.author %> </p>
                 <p><%=val.description%></p>
-                <button id='button' style="display: flex;"> ADD BOOK!</button>
+                <section class="formAdd">
+                <form action="/add" method="POST" >
+                 <input type="text " name="author" value="<%= val.authors %>">
+                 <input type="text " name="title" value="<%= val.title %>">
+                 <input type="text " name="isbn" value="<%= val.isbn %>">
+                 <input type="text " name="image_url" value="<%= val.imge %>">
+                 <input type="text " name="book_description" value="<%= val.description %>">
+                <input type="text" name="bookshelf" required>
+                <button type="submit">Add Book!</button>
+            </form>
+        </section>
+            <button class='button' style="display: flex;"> ADD BOOKShelf!</button> 
          <% })%>
          
          </ul>
-        </form>
+<script>
+$('.formAdd').hide();
+$('.button').on('click', function(){
+    $('.formAdd').toggle();
+})
+
+</script>
+       
     </main>
 </body>
 </html>
+
