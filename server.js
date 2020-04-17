@@ -21,36 +21,42 @@ app.use(express.urlencoded({extended:true}));
 //tell the browser that iam using ejs
 app.set('view engine', 'ejs'); 
 
-app.get('/',getDataBaseSaved);
-app.get('/find',(req,res)=>{
-    res.render('pages/searches/show');
-})
-app.get('/detail/:id',(req,res)=>{
-let valOf = [req.params.id];
-let SQL = "SELECT * FROM selectedBook WHERE id=$1;"
-return client.query(SQL,valOf)
-.then(results=> {
-  res.render('pages/books/detail', {books:results.rows[0]});
-})
-  
-})
 
-app.post('/add',addBook); 
-//app.post('/add/:id',addBook); 
+// all of my roat ---------------------------------------------------------------------------------------
+app.get('/',getDataBaseSaved);
+app.get('/find',findBook);
+app.post('/searches',searchBook);
+app.post('/add',addBook);
+app.get('/detail/:id',detailBook);
+app.post('/update/:id',updateDataBase);
+app.post('/delete/:id',deleteBook);
+
+
+// all of my functions------------------------------------------------------------------------------------
+function findBook(req,res){
+  res.render('pages/searches/show');
+}
+
+function detailBook(req,res){
+  let valOf = [req.params.id];
+  let SQL = "SELECT * FROM selectedBook WHERE id=$1;"
+  return client.query(SQL,valOf)
+  .then(results=> {
+    res.render('pages/books/detail', {books:results.rows[0]});
+  })
+}
+ 
+
 function getDataBaseSaved(req,res){
     let SQL = 'SELECT * FROM selectedBook;';
     return client.query(SQL)
     .then(results =>{
-      //console.log("hhhhhhhhhhhhhh",results.rows);
         res.render('pages/index',{books:results.rows});
     })
 }
-app.post('/update/:id',updateDataBase)
-app.post('/delete/:id',deleteBook)
-    function addBook(req,res) {
-     //let va = req.params.id;
+
+function addBook(req,res) {
     let {author,title,isbn,image_url,book_description,bookshelf} = req.body;
-    //console.log(req.body);
     let SQL = 'INSERT INTO selectedBook (author,title,isbn,image_url,book_description,bookshelf) VALUES ($1,$2,$3,$4,$5,$6);';
     let safeValues = [author,title,isbn,image_url,book_description,bookshelf];
     return client.query(SQL,safeValues)
@@ -62,11 +68,8 @@ app.post('/delete/:id',deleteBook)
   let {author,title,isbn,image_url,book_description,bookshelf} = req.body;
   let SQL = 'UPDATE selectedBook SET author=$1,title=$2,isbn=$3,image_url=$4,book_description=$5,bookshelf=$6 WHERE id=$7;';
   let safeValues = [author,title,isbn,image_url,book_description,bookshelf,Number(req.params.id)];
-    //console.log('SQLLLLLLLLLL',SQL);
-    //console.log('safeeeeeeeee',safeValues);
     return client.query(SQL,safeValues)
     .then (results =>{
-      //console.log('resulttttt' , results)
         res.redirect(`/detail/${req.params.id}`);
     })
  }
@@ -78,11 +81,10 @@ app.post('/delete/:id',deleteBook)
   .then(res.redirect('/'))
  }
 
-app.post('/searches',(req,res)=>{
+ function searchBook(req,res){
     const qSearch = req.body.search;
     const titleC = req.body.title;
     const auterC = req.body.auther;
-    //console.log(req.body);
     if (auterC){
         bookGet(qSearch,auterC )
         .then(array =>{
@@ -90,20 +92,19 @@ app.post('/searches',(req,res)=>{
         })
     }
     else{
-        //console.log('hghghh')
         bookGet1(qSearch,titleC )
         .then(array =>{
             res.render('pages/searches/new', {bookKey:array});
         })
     }
-   })
-   function bookGet(qSearch,auterC){
+   }
+
+
+function bookGet(qSearch,auterC){
     let url = `https://www.googleapis.com/books/v1/volumes?q=inauter:${qSearch}`;
       return superagent.get(url)
         .then(bookData => {
-          //console.log(bookData.body);
           return bookData.body.items.map( val =>{
-         //console.log('mmmmmmmmmmmmmmmm',val);
             return new Book(val) ;
           });
         });
@@ -115,14 +116,14 @@ function bookGet1(qSearch,titleC){
     let url = `https://www.googleapis.com/books/v1/volumes?q=intitle:${qSearch}`;
       return superagent.get(url)
         .then(bookData => {
-          //console.log(bookData.body);
          return bookData.body.items.map( val =>{
-         //console.log('gggggggggggggggggg',val);
          return new Book(val) ;
           });
         });
     }
-    
+
+
+ // constructor---------------------------------------------------------------------------------------------------   
 function Book(bookData){
     if(bookData.volumeInfo.imageLinks ===  undefined){
       this.imge="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS1rHJ7zb-eZK0q1xB7YJ58Rq9VdwAnTOMwWKcc_X-3Y0NUXYgM&usqp=CAU";
@@ -150,6 +151,7 @@ function Book(bookData){
    
 }
 
+// error handel-----------------------------------------------------------------------------------
 app.use(error);
 app.get('*', notFoundError);
 
@@ -162,12 +164,10 @@ function error (req,res) {
   res.render('pages/error');
 }
 
+// start listening ----------------------------------------------------------------------------------
 client.connect()
   .then(() =>{
     app.listen(PORT , () => {
       console.log(`lestining to PORT  ${PORT}`);
     });
   });
-
-//const url = `https://www.googleapis.com/books/v1/volumes?q=intitle:`
-//const url = `https://www.googleapis.com/books/v1/volumes?q=inauthor:`
