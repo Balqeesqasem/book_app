@@ -14,6 +14,17 @@
         <p id="text"><%= books.book_description%></p>
         <p id="text"><%= books.bookshelf%></p>
     </main>
-    
+    <form action="/update/<%= books.id%>" method="POST">
+        <input type="text " name="author" value="<%= books.author %>">
+        <input type="text " name="title" value="<%= books.title %>">
+        <input type="text " name="isbn" value="<%= books.isbn %>">
+        <input type="text " name="image_url" value="<%= books.image_url %>">
+        <input type="text " name="book_description" value="<%= books.book_description %>">
+       <input type="text" name="bookshelf" value="<%= books.bookshelf%>">
+        <button>Update Book!</button>
+    </form>
+    <form action="/delete/<%= books.id%>" method="POST">
+        <button>Delete Book!</button>
+    </form>
 </body>
 </html>

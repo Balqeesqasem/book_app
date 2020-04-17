@@ -45,7 +45,8 @@ function getDataBaseSaved(req,res){
         res.render('pages/index',{books:results.rows});
     })
 }
-
+app.post('/update/:id',updateDataBase)
+app.post('/delete/:id',deleteBook)
     function addBook(req,res) {
      //let va = req.params.id;
     let {author,title,isbn,image_url,book_description,bookshelf} = req.body;
@@ -57,6 +58,25 @@ function getDataBaseSaved(req,res){
         res.redirect('/');
     })
 }
+ function updateDataBase(req,res){
+  let {author,title,isbn,image_url,book_description,bookshelf} = req.body;
+  let SQL = 'UPDATE selectedBook SET author=$1,title=$2,isbn=$3,image_url=$4,book_description=$5,bookshelf=$6 WHERE id=$7;';
+  let safeValues = [author,title,isbn,image_url,book_description,bookshelf,Number(req.params.id)];
+    //console.log('SQLLLLLLLLLL',SQL);
+    //console.log('safeeeeeeeee',safeValues);
+    return client.query(SQL,safeValues)
+    .then (results =>{
+      //console.log('resulttttt' , results)
+        res.redirect(`/detail/${req.params.id}`);
+    })
+ }
+
+ function deleteBook(req,res){
+  let SQL = 'DELETE FROM selectedBook WHERE id=$1';
+  let safeValue = [Number(req.params.id)];
+  client.query(SQL, safeValue)
+  .then(res.redirect('/'))
+ }
 
 app.post('/searches',(req,res)=>{
     const qSearch = req.body.search;
@@ -125,7 +145,7 @@ function Book(bookData){
         this.description=bookData.volumeInfo.description;
     }
     
-    this.isbn = bookData.volumeInfo.industryIdentifiers[0].identifier ? bookData.volumeInfo.industryIdentifiers[0].identifier : '00';
+    this.isbn = bookData.volumeInfo.industryIdentifiers ? bookData.volumeInfo.industryIdentifiers[0].identifier : '00';
     
    
 }
